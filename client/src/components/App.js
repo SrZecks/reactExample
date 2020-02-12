@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import Header from './Header'
 import InputUser from './InputUser'
 import Users from './Users';
 import uuid from 'uuid'
 import axios from 'axios'
 import '../css/App.css';
+
+const MySwal = withReactContent(Swal)
 
 library.add(fab, fas)
 
@@ -24,10 +28,20 @@ class App extends Component {
   }
   // Functions
   delUser = (user) => {
-    let { id } = user
-    axios.delete('http://localhost:5000/delUser', { params: { id: id } })
-      .then(res => this.setState({ users: [...this.state.users.filter(user => user.id !== id)] }))
-      .catch(err => { alert(err) })
+    MySwal.fire({
+      title: 'Deletar',
+      text: `Deseja remover o usuario ${user.name}?`,
+      icon: 'warning',
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#C30000',
+    }).then(result => {
+      if (result.value) {
+        let { id } = user
+        axios.delete('http://localhost:5000/delUser', { params: { id: id } })
+          .then(res => this.setState({ users: [...this.state.users.filter(user => user.id !== id)] }))
+          .catch(err => { alert(err) })
+      }
+    })
   }
 
   addUser = (name) => {

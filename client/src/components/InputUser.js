@@ -14,6 +14,7 @@ export class InputUser extends Component {
         this.props.addUser(this.state.name);
         this.setState({name:''})
     }
+    
     render() {
         return (
             <div className="inputFlex">
