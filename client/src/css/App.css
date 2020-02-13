@@ -45,11 +45,11 @@ a {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #ccc;
+  background-color: #fafafa;
 }
 
 .userFlex div{
   padding: 8px;
-  background-color: #fafafa;
 }
 
 .userFlex div:last-child{

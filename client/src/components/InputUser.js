@@ -18,7 +18,7 @@ export class InputUser extends Component {
     render() {
         return (
             <div className="inputFlex">
-                <div><input onChange={this.onChange} name="name" value={this.state.name} placeholder="-- Nome do usuario --"/></div>
+                <div><input onChange={this.onChange} name="name" value={this.state.name} placeholder="-- Digite seu nome --"/></div>
                 <div>
                     <button onClick={this.onClick}>
                     <FontAwesomeIcon icon={['fas', 'user-plus']} />

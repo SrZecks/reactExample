@@ -2,6 +2,7 @@
 const express = require("express")
 const cors = require("cors")
 const path = require("path")
+const requestIp = require('request-ip');
 const mongoose = require("mongoose")
 //yuri:fgmbr4YF9icExBW8
 // Mongoose instance
@@ -25,13 +26,14 @@ const app = express();
 
 // app config
 app.use(cors())
+app.use(requestIp.mw())
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+//app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Routes (Remember to send this to an external file an use a router middleware)
 app.get('/getUsers', async function (req, res, next) {
-    let query = User.find({}).select({ "name": 1, "_id": 1 })
+    let query = User.find({})
     query.exec(function (err, rows) {
         if (err) return next(err);
         res.json(rows);
@@ -39,10 +41,11 @@ app.get('/getUsers', async function (req, res, next) {
 });
 
 app.post('/addUser', function (req, res, next) {
-    let { id, name } = req.query
+    let ip = req.clientIp;
+    let { name } = req.query
 
     let user = new User({
-        id: id,
+        id: ip,
         name:name
     })
 
@@ -63,11 +66,45 @@ app.delete('/delUser', function (req, res, next) {
     
 });
 
+app.get('/myIp', function (req, res, next) {
+    let ip = req.clientIp;
+
+    let user = new User({
+        id:ip,
+        ip: ip,
+        name: ip
+    })
+
+    user.save(function (err, doc) {
+        if (err) return next(err);
+        res.json(doc)
+    })
+})
+
+app.get('/getIp', function (req, res, next) {
+    let ip = req.clientIp;
+    
+    let query = User.find({"id":ip}).countDocuments()
+    query.exec(function (err, rows) {
+        if (err) return next(err);
+        res.json(rows)
+    });
+})
+
+app.get('/getName', function (req, res, next) {
+    let ip = req.clientIp;
+    
+    let query = User.find({"id":ip})
+    query.exec(function (err, rows) {
+        if (err) return next(err);
+        res.json(rows)
+    });
+})
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
+//app.get('*', (req, res) => {
+//    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+//});
   
 const port = process.env.PORT || 5000;
 

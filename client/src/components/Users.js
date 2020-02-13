@@ -9,14 +9,15 @@ export class Users extends Component {
         const { users } = this.props
 
         return users.map(user => (
-            
+
             <div key={user._id} className="userFlex">
-                <div>id: {user._id}</div>
+                <div>Ip: {user.id}</div>
                 <div>Nome: {user.name}</div>
+                <div></div>
                 {/*<div>Idade: {user.age}</div> */}
-                <div className="closeBtn">
+                {/*<div className="closeBtn">
                     <FontAwesomeIcon onClick={this.props.delUser.bind(this, user)} icon="times-circle" />
-                </div>
+                </div>*/}
             </div>
         ));
     }
