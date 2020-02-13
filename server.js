@@ -25,6 +25,9 @@ const app = express();
 // app config
 app.use(cors())
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 // Routes (Remember to send this to an external file an use a router middleware)
 app.get('/getUsers', async function (req, res, next) {
     let query = User.find({}).select({ "name": 1, "_id": 1 })
@@ -59,6 +62,12 @@ app.delete('/delUser', function (req, res, next) {
     
 });
 
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
+  
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`))
