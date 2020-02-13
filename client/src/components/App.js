@@ -36,9 +36,9 @@ class App extends Component {
       confirmButtonColor: '#C30000',
     }).then(result => {
       if (result.value) {
-        let { id } = user
-        axios.delete('http://localhost:5000/delUser', { params: { id: id } })
-          .then(res => this.setState({ users: [...this.state.users.filter(user => user.id !== id)] }))
+        let { _id } = user
+        axios.delete('http://localhost:5000/delUser', { params: { _id: _id } })
+          .then(res => this.setState({ users: [...this.state.users.filter(user => user._id !== _id)] }))
           .catch(err => { alert(err) })
       }
     })
@@ -52,7 +52,8 @@ class App extends Component {
 
     axios.post('http://localhost:5000/addUser', null, { params: newUser })
       .then(res => {
-        this.setState({ users: [...this.state.users, res.data[0]] })
+        console.log(res);
+        this.setState({ users: [...this.state.users, res.data]})
       })
       .catch(err => { alert(err) })
   }

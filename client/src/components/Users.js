@@ -10,8 +10,8 @@ export class Users extends Component {
 
         return users.map(user => (
             
-            <div key={user.id} className="userFlex">
-                <div>id: {String(user.id).split('-')[0]}</div>
+            <div key={user._id} className="userFlex">
+                <div>id: {user._id}</div>
                 <div>Nome: {user.name}</div>
                 {/*<div>Idade: {user.age}</div> */}
                 <div className="closeBtn">
