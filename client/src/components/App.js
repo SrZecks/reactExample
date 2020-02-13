@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/getUsers')
+    axios.get('/getUsers')
       .then(res => this.setState({ users: res.data }))
       .catch(err => { alert(err) })
   }
@@ -37,7 +37,7 @@ class App extends Component {
     }).then(result => {
       if (result.value) {
         let { _id } = user
-        axios.delete('http://localhost:5000/delUser', { params: { _id: _id } })
+        axios.delete('/delUser', { params: { _id: _id } })
           .then(res => this.setState({ users: [...this.state.users.filter(user => user._id !== _id)] }))
           .catch(err => { alert(err) })
       }
@@ -50,7 +50,7 @@ class App extends Component {
       name: name
     }
 
-    axios.post('http://localhost:5000/addUser', null, { params: newUser })
+    axios.post('/addUser', null, { params: newUser })
       .then(res => {
         console.log(res);
         this.setState({ users: [...this.state.users, res.data]})
