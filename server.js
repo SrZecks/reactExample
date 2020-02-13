@@ -1,6 +1,7 @@
 // Dependencies
 const express = require("express")
 const cors = require("cors")
+const path = require("path")
 const mongoose = require("mongoose")
 //yuri:fgmbr4YF9icExBW8
 // Mongoose instance
